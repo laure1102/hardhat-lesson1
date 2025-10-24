@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile":"npx hardhat compile",
-    "deploy:sepolia":"npx hardhat run scripts/deployFundMe.js --network sepolia",
+    "compile": "npx hardhat compile",
+    "deploy:sepolia": "npx hardhat run scripts/deployFundMe.js --network sepolia",
     "verify:sepolia": "npx hardhat verify --network sepolia 0x1f391d07052C42BdE9FE062522BfdfEb00bD87A9 '50'"
   },
   "author": "",
@@ -16,7 +16,8 @@
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "@nomicfoundation/hardhat-verify": "^2.1.1",
     "dotenv": "^17.2.3",
-    "hardhat": "^2.26.3"
+    "hardhat": "^2.26.3",
+    "hardhat-deploy": "^1.0.4"
   },
   "dependencies": {
     "@chainlink/env-enc": "^1.0.5"

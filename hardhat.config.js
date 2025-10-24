@@ -1,5 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomicfoundation/hardhat-verify");
+require("hardhat-deploy");
 require("./tasks/deploy-fundMe");
 require("./tasks/interact-fundMe");
 //require("./tasks");
@@ -12,6 +13,7 @@ const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.28",
+  defaultNetwork: 'hardhat', //hardhat本地网络，合约部署一次就消失，local，本地网络，合约部署一次，一直存在
   networks: {
     sepolia:{
       url:SEPOLIA_URL,
@@ -23,5 +25,13 @@ module.exports = {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
     apiKey: ETHERSCAN_API_KEY
-  }
+  },
+  namedAccounts:{
+    firstAccount:{
+      default: 0,
+    },
+    secondAccount:{
+      default: 1,
+    },
+  } 
 };

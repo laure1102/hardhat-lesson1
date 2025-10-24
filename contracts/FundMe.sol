@@ -24,11 +24,9 @@ contract FundMe {
 
     AggregatorV3Interface internal dataFeed;
   
-    constructor(uint256 _lockTime){
+    constructor(uint256 _lockTime, address dataFeedAddress){
         // Sepolia Testnet
-        dataFeed = AggregatorV3Interface(
-            0x694AA1769357215DE4FAC081bf1f309aDC325306
-        ); 
+        dataFeed = AggregatorV3Interface(dataFeedAddress); 
         // ETH/USD
         //https://docs.chain.link/data-feeds/price-feeds/addresses?page=1&testnetPage=1&network=ethereum&search=
 
