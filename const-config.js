@@ -7,4 +7,6 @@ module.exports = {
         },
     },
     lock_time: 180,
+    developmentChains:['hardhat','local'],
+    waitConfirmations:5,
 }

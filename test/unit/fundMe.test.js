@@ -52,11 +52,13 @@ after
  */
 
 const {ethers, deployments, getNamedAccounts} = require("hardhat");
-const {assert} = require("chai");
+const {assert, expect} = require("chai");
+const helpers = require("@nomicfoundation/hardhat-network-helpers");
 
 describe("test fundme contract", async ()=>{
     let fundMeFactory;
     let fundMe;
+    let fundMeWithSecondAccount;
     let firstAccount, secondAccount;
     let contractAddr;
     // before(async ()=>{
@@ -73,14 +75,42 @@ describe("test fundme contract", async ()=>{
     beforeEach(async ()=>{
       console.log(`beforeEach`);
       firstAccount = (await getNamedAccounts()).firstAccount;
+      secondAccount = (await getNamedAccounts()).secondAccount;
       await deployments.fixture(["all"]); //使用tags复用deploy部署脚本进行部署
       const fundMeDeployment = await deployments.get("FundMe");
       contractAddr = fundMeDeployment.address;
       fundMe = await ethers.getContractAt("FundMe",contractAddr);
-
+      fundMeWithSecondAccount = await ethers.getContract("FundMe",secondAccount);
     });
     it("test if the owner is msg.sender",async ()=>{
-        assert.equal((await fundMe.owner()), firstAccount);
+        await assert.equal((await fundMe.owner()), firstAccount);
+    });
+    it("test if the owner is not msg.sender",async ()=>{
+        await assert.notEqual((await fundMeWithSecondAccount.owner()), secondAccount);
+    });
+
+    //unit test for fund function
+    it("window closed,value grater than minum, fund failed", async()=>{
+      //本地网络时间戳不会自动增加
+      //make sure the window is closed
+      await helpers.time.increase(200);
+      await helpers.mine();//模拟挖矿
+      await expect(fundMe.fund({value: ethers.parseEther("0.001")}))
+      .to.be.revertedWith("lock time over");
+
+    });
+    it("window open, value less than minum, fund failed",async()=>{
+      await expect(fundMe.fund({value: ethers.parseEther("0.00001")}))
+      .to.be.revertedWith("required more eth");
+    });
+
+    it("fund success", async()=>{
+      await helpers.time.increase(100);
+      await helpers.mine();//模拟挖矿
+      await fundMe.fund({value: ethers.parseEther("0.002")});
+      fundedAmount = await fundMe.fundersAmountMapp(firstAccount);
+      // assert.equal(fundedAmount, 0.002*(10**18));
+      await expect(fundedAmount).to.equal(ethers.parseEther("0.002"));
     });
 
 });

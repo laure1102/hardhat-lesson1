@@ -1,6 +1,8 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomicfoundation/hardhat-verify");
 require("hardhat-deploy");
+require("@nomicfoundation/hardhat-ethers");
+require("hardhat-deploy-ethers");
 require("./tasks/deploy-fundMe");
 require("./tasks/interact-fundMe");
 //require("./tasks");
