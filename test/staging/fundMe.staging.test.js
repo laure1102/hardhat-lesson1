@@ -1,9 +1,9 @@
 const {ethers, deployments, getNamedAccounts} = require("hardhat");
 const {assert, expect} = require("chai");
 const helpers = require("@nomicfoundation/hardhat-network-helpers");
-const {devlopmentChains} = require("../../const-config")
+const {developmentChains} = require("../../const-config")
 
-devlopmentChains.includes(network.name)
+developmentChains.includes(network.name)
 ? describe.skip
 : describe("test fundme contract", async ()=>{
     let fundMeFactory;

@@ -16,6 +16,12 @@ const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 module.exports = {
   solidity: "0.8.28",
   defaultNetwork: 'hardhat', //hardhat本地网络，合约部署一次就消失，local，本地网络，合约部署一次，一直存在
+  mocha:{
+    timeout: 300000,
+  },
+  gasReporter:{
+    enabled: true,
+  },
   networks: {
     sepolia:{
       url:SEPOLIA_URL,
